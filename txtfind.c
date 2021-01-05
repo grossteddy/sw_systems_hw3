@@ -3,27 +3,24 @@
 #define WORD 30
 
 
-int get_line(char s[])
-{
+int get_line(char s[]){
     int count = 0;
     char c;
 
-    while( ((c=getchar())!=EOF)  && (c != '\n'))
-    {
+    while( ((c=getchar())!=EOF)  && (c != '\n')){
         
-        *(s+count)=c;
+       *(s+count)=c;
         count ++;
     }
     *(s+count)='\0';
     return count; 
 }
 
-int getword(char w[])
-{
+
+int getword(char w[]){
     int count = 0;
     char c;
-    while( ((c=getchar())!=EOF ) && (c != '\n') && (c != '\t') && (c != ' '))
-    {
+    while( ((c=getchar())!='\n' ) && (c != EOF) && (c != '\t') && (c != ' ')){
         *(w+count)=c;
         count ++;
     }
@@ -31,35 +28,29 @@ int getword(char w[])
     return count; 
 }
 
-int substring( char * str1, char * str2)
-{
+int substring( char * str1, char * str2){
     //str1 is the word and str2 is the checked
     
     int i =0;
     int j = 0;
 
-    while(*(str2+i)!='\0')
-    {
-        if(*(str1+j)=='\0')
-        {
+    while(*(str2+i)!='\0'){
+        if(*(str1+j)=='\0'){
             return 1;
         }
 
-        else if(*(str1+j)==*(str2+i))
-        {
+        else if(*(str1+j)==*(str2+i)){
             i++;
             j++;
         }
 
-        else
-        {
+        else{
             i++;
             j=0;
         }
 
     }
-    if(*(str1+j)=='\0')
-    {
+    if(*(str1+j)=='\0'){
         return 1;
     }
     return 0;
@@ -68,67 +59,53 @@ int substring( char * str1, char * str2)
     
 }
 
-int similar (char *s, char *t, int n)
-{
+int similar (char *s, char *t, int n){
     //t is the objective and s is the word being searched
     int i = 0;
     int j = 0;
-    while(*(s+i)!='\0')
-    {
-        if(*(s+i)!=*(t+j))
-        {
-            n--;
-            i++;
+
+    while((n >= 0)){
+        if(((*(s+i) == '\0')) && (*(t+j) == '\0')){
+            return 1;
         }
-        else if(n<0)
-        {
-            return 0;
-        }
-        else{
+        if(*(s+i) == *(t+j)){
             i++;
             j++;
         }
-    }
-    if(*(t+j)=='\0'&&n>=0)
-    {
-        
-        return 1;
+        else{
+            i++;
+            n--;
+        }
+
     }
     return 0;
-
-    
-   
 }
 
-void print_lines(char * str)
-{
+void print_lines(char * str){
     char line [LINE];
     
-    while(get_line(line))
-    {   
+    while(get_line(line)){   
         
-        if(substring(str,line)){
+        if(substring(str,line) == 1){
             printf("%s\n" ,line);
         }
        
     }
 }
 
-void print_similar_words(char * str)
-{
+void print_similar_words(char * str){
     char word [WORD];
     
-    while(getword(word))
-    {
-        if(similar(word,str,1)){
+    while(getword(word)){
+        if(similar(word,str,1) == 1){
             printf("%s\n" ,word);
         }
        
     }
 }
 
-int main()
-{
+int main(int argc, char **argv){
+
     char word [WORD];
     scanf("%s", word);
 
